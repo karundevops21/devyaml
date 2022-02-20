@@ -1,0 +1,100 @@
+vi pod.yaml
+-----------
+apiVersion: v1
+kind: Pod
+metadata:
+  name: sherly
+  labels:
+    type: production
+spec:
+  containers:
+    - name: front
+      image: nginx
+-----------------
+kubectl create -f pod.yaml
+kubectl get pods
+
+vi service.yaml
+---------------
+apiVersion: v1
+kind: Service
+metadata:
+  name: sherlyservice
+spec:
+  type: NodePort
+  ports:
+    - targetPort: 80
+      port: 80
+  selector:
+    type: production
+---------------
+kubectl create -f service.yaml
+kubectl get service
+
+
+vi deployment.yaml
+--------
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ananddeployment
+spec:
+  replicas: 2
+  template:
+    metadata:
+      name: sherly
+      labels:
+        type: development
+    spec:
+      containers:
+        - name: front
+          image: nginx
+  selector:
+    matchLabels:
+      type: development
+---------
+kubectl create -f deployment.yaml
+kubectl get all
+kubectl get pods
+kubectl get deployment
+kubectl get replicaset
+
+vi deployservice.yaml
+---------------
+apiVersion: v1
+kind: Service
+metadata:
+  name: sherlyservice
+spec:
+  type: NodePort
+  ports:
+    - targetPort: 80
+      port: 80
+  selector:
+    type: development
+-----------------
+kubectl create -f deployservice.yaml
+kubectl get service
+
+
+kubectl get pods sherly -o yaml > sherly.yaml
+ls -lrt
+vi sherly.yaml 
+=======================================
+
+How to easily generate yaml 
+---------------------------
+
+- kubectl create -f pod.yaml
+  kubectl get pods testpod -o yaml > testpod.yaml
+
+- kubectl run testpod --image=nginx --dry-run=client -o yaml
+  kubectl run testpod --image=nginx --dry-run=server -o yaml
+
+- kubectl explain pod
+  kubectl explain pod.spec
+  kubectl explain pod.metadata
+
+- Fetch the yaml templates of all the objects from kubernetes.io website
+
+==========================
