@@ -98,3 +98,5 @@ How to easily generate yaml
 - Fetch the yaml templates of all the objects from kubernetes.io website
 
 ==========================
+
+Edited by Karun
